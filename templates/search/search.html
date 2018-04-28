@@ -1,0 +1,228 @@
+{% extends 'mybase.html' %}
+{% load blog_tags %}
+{% load highlight %}
+{% block main %}
+    <section class="container">
+        <div class="content-wrap">
+            <div class="content">
+                {% if query %}
+                    {% for result in page.object_list %}
+{#                        <article class="excerpt excerpt-one excerpt-5 article543">#}
+                        <article class="excerpt excerpt-one">
+                            <header><a class="cat label label-important" target="_blank"
+                                       href="{% url 'blog:category' result.object.category.pk %}" data-original-title=""
+                                       title="">{{ result.object.category.name }}<i
+                                    class="label-arrow"></i></a>
+                                <h2><a href="{{ result.object.get_absolute_url }}" target="_blank"
+                                       title="{{ result.object.title }}">{{ result.object.title }}</a>
+                                </h2>
+                            </header>
+                            <div class="text-muted time"><span class="post-time nmpost"><i
+                                    class="fa fa-clock-o"></i> {{ result.object.author }} 发布于 {{ result.object.created_time|date:"Y-m-d" }}</span>
+                            </div>
+                            <div class="focus"><a href="{{ result.object.get_absolute_url }}" target="_blank"
+                                                  class="thumbnail">
+                    <span class="item"><span class="thumb-span"><img
+                            data-src="{{ MEDIA_URL }}{{ result.object.pic.avatar.url }}"
+                            class="thumb"
+                            src="{{ MEDIA_URL }}{{ result.object.pic.avatar.url }}"
+                            style="display: inline;"></span></span>
+                            </a>
+                            </div>
+
+                            <span class="note">{% highlight result.object.body with query %}</span>
+                            <div class="text-muted views">
+                                <span class="post-views"><i class="fa fa-eye"></i> 阅读({{ result.object.views }})</span>
+                                <a href="javascript:;" class="post-like sf-praise-sdk " sfa="click" data-postid="543"
+                                   data-value="1"><i class="fa  fa-thumbs-o-up"></i>赞一个 (<span class="sf-praise-sdk"
+                                                                                               sfa="num"
+                                                                                               data-value="1"
+                                                                                               data-postid="543">0</span>)</a>
+                                <span class="post-comments"><i
+                                        class="fa fa-comments"></i> 评论({{ result.object.comment_set.count }})</span>
+                                <a class="post-linkto" href="{{ result.object.get_absolute_url }}" target="_blank"
+                                   rel="external nofollow">阅读全文</a>
+                            </div>
+                        </article>
+
+
+                    {% empty %}
+                        <article class="excerpt excerpt-one">
+                            <h2> o_O??? 很抱歉！没有搜索到你想要的结果！</h2>
+                        </article>
+                    {% endfor %}
+
+                {% else %}
+                    请输入搜索关键词，例如 django
+                {% endif %}
+            </div>
+        </div>
+        <aside class="sidebar">
+            <div class="widget widget-tops">
+                <ul class="widget-nav">
+                    {#                    <li class="">网站公告</li>#}
+                    <li class="">
+                        最多点击
+                    </li>
+                    {#                    <li class="">特别推荐</li>#}
+                    <li class="active">热评文章</li>
+                </ul>
+                <ul class="widget-navcontent">
+                    {#                    <li class="item item-01">#}
+                    {#                        <ul>#}
+                    {#                            <li><a href="http://www.tiezis.com/post/534.html">你相信什么，就会看见什么</a></li>#}
+                    {#                            <li><a href="http://www.tiezis.com/post/476.html">你的“暗时间”说明你的能力</a></li>#}
+                    {#                            <li><a href="http://www.tiezis.com/post/470.html">周鸿祎：网络安全需要有灵感、有天赋的奇才、怪才</a></li>#}
+                    {#                            <li><a href="http://www.tiezis.com/post/468.html">掌控成败的灵魂气场</a></li>#}
+                    {#                            <li><a href="http://www.tiezis.com/post/451.html">尊重你身体中那些互斥的力量</a></li>#}
+                    {#                        </ul>#}
+                    {#                    </li>#}
+                    <li class="item item-01">
+                        {% get_hot_view_article as hot_article_list %}
+                        <ul>
+                            {% for hot_article  in hot_article_list %}
+                                <li class="sidelist1">
+                                    <time>{{ hot_article.created_time|date:'Y-m-d' }}</time>
+                                    <a target="_blank"
+                                       href="{{ hot_article.get_absolute_url }}">{{ hot_article.title }}</a>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </li>
+                    {#                    <li class="item item-03">#}
+                    {#                        <ul><a href="http://www.toutiao.com/m6321893693/" target="_blank"></a>#}
+                    {#                            <h2><a href="http://www.toutiao.com/m6321893693/" target="_blank">【敬请关注铁子说头条号】<br></a>#}
+                    {#                                <li id="navbar-category-1"><a href="http://www.toutiao.com/m6321893693/"#}
+                    {#                                                              target="_blank">#}
+                    {##}
+                    {#                                </a><a href="http://www.tiezis.com/4.html"><strong><b>“π”</b></strong></a></li>#}
+                    {#                            </h2>#}
+                    {#                            <a href="http://www.iwanba.net/" class="btn btn-primary">【爱 玩 吧】</a></ul>#}
+                    {#                    </li>#}
+                    <li class="item item-01 active">
+                        {% get_hot_commend_article as hot_commend_list %}
+                        <ul>
+                            {% for hot_commend in  hot_commend_list %}
+                                <li class="sidelist1">
+                                    <time>{{ hot_commend.created_time|date:'Y-m-d' }}</time>
+                                    <a target="_blank"
+                                       href="{{ hot_commend.get_absolute_url }}">{{ hot_commend.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="widget widget_divTags" id="divTags">
+                {% get_tags as tag_list %}
+                <ul class="widget_divTags_inner">
+
+                    {% for tag in tag_list %}
+                        <li><a href="{% url 'blog:tag' tag.pk %}" data-original-title="" title="">{{ tag.name }}<span
+                                class="tag-count"> [{{ tag.num_posts }}]</span></a></li>
+                    {% empty %}
+                        暂无标签！
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <div class="widget widget_hotpost" id="hotpost">
+                <h3 class="title">推荐文章</h3>
+                {% get_recommend as recommend_list %}
+                <div class="widget_inner widget_hotpost_inner">
+                    {% for recommend in recommend_list %}
+                        <li><a href="{{ recommend.get_absolute_url }}"><span class="thumbnail"><img
+                                data-src="/media/{{ recommend.pic }}"
+                                class="thumb"
+                                src="/media/{{ recommend.pic }}"
+                                style="display: block;"></span><span class="text">{{ recommend.title }}</span><span
+                                class="text-muted post-views"><br>阅读 [{{ recommend.views }}]</span></a></li>
+                    {% endfor %}
+                </div>
+            </div>
+        </aside>
+    </section>
+
+
+
+
+
+    {#    <div class="article-list">#}
+    {#        {% if query %}#}
+    {#            {% for result in page.object_list %}#}
+    {#                <div class="article-item">#}
+    {#                    <div class="row">#}
+    {#                        <div class="col-md-3">#}
+    {#                            <a href="{{ result.object.get_absolute_url }}" class="thumbnail">#}
+    {#                                <img src="/static/{{ result.object.pic }}">#}
+    {#                            </a>#}
+    {#                        </div>#}
+    {##}
+    {#                        <div class="col-md-9 title-style">#}
+    {#                            <h3 class="post-{{ result.object.pk }}">#}
+    {#                                <a href="{{ result.object.get_absolute_url }}">#}
+    {#                                    {% highlight result.object.title with query %}#}
+    {#                                </a>#}
+    {#                            </h3>#}
+    {#                            <div class="row col-md-12">#}
+    {#                                <ul class="meta">#}
+    {#                                    <li>#}
+    {#                                            <span class="blog-category">#}
+    {#                                                <a href="{% url 'blog:category' result.object.category.pk %}">{{ result.object.category.name }}</a>#}
+    {#                                            </span></li>#}
+    {#                                    <li><span#}
+    {#                                            class="glyphicon glyphicon-time iconfont"></span>{{ result.object.created_time|date:"Y-m-d" }}#}
+    {#                                    </li>#}
+    {#                                    <li><span#}
+    {#                                            class="glyphicon glyphicon-user iconfont"></span>{{ result.object.author }}#}
+    {#                                    </li>#}
+    {#                                    <li><span#}
+    {#                                            class="glyphicon glyphicon-eye-open iconfont"></span>{{ result.object.views }}#}
+    {#                                    </li>#}
+    {#                                </ul>#}
+    {#                            </div>#}
+    {#                            <div class="row col-md-12">#}
+    {#                                <div class="content-intro">#}
+    {#                                    {% highlight result.object.body with query %}#}
+    {#                                    <a href="{{ result.object.get_absolute_url }}" type="button"#}
+    {#                                       class="btn-xs btn-warning">阅读全文</a>#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {##}
+    {#            {% empty %}#}
+    {#                <div class="panel panel-default">#}
+    {#                    <div class="panel-body">#}
+    {#                        <h2>没有搜索到你想要的结果！</h2>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#            {% endfor %}#}
+    {##}
+    {#        {% else %}#}
+    {#            请输入搜索关键词，例如 django#}
+    {#        {% endif %}#}
+    {##}
+    {#        {% if page.has_previous or page.has_next %}#}
+    {#            <nav aria-label="...">#}
+    {#                <ul class="pager">#}
+    {#                    {% if page.has_previous %}#}
+    {#                        <li>#}
+    {#                        <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">&laquo;#}
+    {#                        Previous{% endif %}#}
+    {#                    {% if page.has_previous %}</a>#}
+    {#                        </li>#}
+    {#                    {% endif %}#}
+    {##}
+    {#                    {% if page.has_next %}#}
+    {#                        <li><a href="?q={{ query }}&amp;page={{ page.next_page_number }}">Next#}
+    {#                        &raquo;{% endif %}#}
+    {#                    {% if page.has_next %}</a></li>{% endif %}#}
+    {#                </ul>#}
+    {#            </nav>#}
+    {#        {% endif %}#}
+    {#    </div>#}
+{% endblock main %}

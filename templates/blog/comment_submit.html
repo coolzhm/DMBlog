@@ -1,0 +1,67 @@
+{% if user.is_authenticated %}
+    邮箱：{{ user.socialaccount_set.first.get_email  }}
+    <div id="respond" class="no_webshot">
+        <form action="{% url 'comments:post_comment' post.pk %}" method="post" id="commentform"
+              onsubmit="return onSubmitComment()">
+            {% csrf_token %}
+            <div class="comt">
+                <div class="comt-title">
+                    <div class="comt-avatar">
+                        <img id="avatarnow" title="{{ user.username }}"
+                             data-src="{{ user.socialaccount_set.all.0.get_avatar_url }}"
+                             class="avatar avatar-28 photo avatar-default" height="28" width="28"
+                             src="{{ user.socialaccount_set.all.0.get_avatar_url }}">
+                    </div>
+                    <p title="{{ user.username }}">
+                        {{ user.username }}
+                    </p>
+                </div>
+                <div class="comt-box">
+                    <input name={{ form.name.name }} type="hidden" value="{{ user.username }}">
+                    <input name={{ form.email.name }} type="hidden">
+                    <input name={{ form.ip.name }} type="hidden">
+                    <input name={{ form.city.name }} type="hidden">
+                    <input name={{ form.url.name }} type="hidden">
+                    <input name={{ form.avatar_url.name }} type="hidden"
+                           value="{{ user.socialaccount_set.all.0.get_avatar_url }}">
+                    <input name={{ form.parent.name }} type="hidden">
+                    <input name={{ form.previous.name }} type="hidden">
+                    {#                                    <label for="id_{{ form.text.name }}"></label>#}
+                    <textarea id="editor" name={{ form.text.name }} placeholder="欢迎留言,勿发广告! (=^ ^=)"
+                    ></textarea>
+                </div>
+                <div class="comt-ctrl">
+                    <a id="cancel-reply" class="pull-left" href="javascript:;"
+                       style="display: none;">取消评论</a>
+
+                    <button class="btn btn-primary pull-right" type="submit" name="submit"
+                            id="submit" tabindex="6"><i
+                            class="icon-ok-circle icon-white icon12"></i> 提交评论
+                    </button>
+
+                </div>
+                {#                                <button type="submit" class="comment-btn">发表</button>#}
+            </div>
+        </form>
+    </div>
+{% else %}
+    <div class="article-social">
+        <div class="row" style="margin-bottom: 8px;font-size: 18px;">
+            <h4>登陆后回复</h4>
+        </div>
+        <div class="row">
+            <span class="weibo">
+                <a href="/accounts/weibo/login/">
+                    <i class="fa  fa-weibo"></i>
+                </a>
+            </span>
+            <span class="github">
+                <a href="/accounts/github/login/">
+                    <i class="fa  fa-github"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+
+
+{% endif %}

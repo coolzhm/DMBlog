@@ -1,0 +1,123 @@
+{% extends 'mybase.html' %}
+{% load blog_tags %}
+{% load mptt_tags %}
+{% block head %}
+    <meta name="keywords" content="个人博客,dmcool,个人博客模板,个人网站模版,django,python,网站建设">
+    <meta name="description" content="DM的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设">
+{% endblock head %}
+{% block main %}
+    <div class="container container-page">
+        <div class="pageside">
+            <div class="pagemenus">
+                <ul class="pagemenu">
+                    <li><a href="{% url 'blog:explain' %}"><i class="fa fa-send"></i> 简介</a>
+                    </li>
+                    <li><a href="{% url 'blog:archive' %}"><i
+                            class="fa fa-chain-broken"></i> 归档</a></li>
+                    <li><a href="{% url 'blog:tags' %}"><i
+                            class="fa fa-tags"></i> 云标签</a></li>
+                    <li class="active"><a href="{% url 'blog:msgboard' %}"><i
+                            class="fa fa-comments"></i> 留言板</a></li>
+                </ul>
+            </div>
+            <div class="pagemenus">
+            </div>
+        </div>
+
+        <div class="content" style="padding:20px;">
+            <header class="article-header">
+                <h1 class="article-title">
+                    {{ msg_boards.title }}
+                </h1>
+
+            </header>
+
+            <article class="article-content">
+                {{ msg_boards.body|safe }}
+            </article>
+
+
+            <div class="title" id="comments">
+                {#                    <i class="fa fa-comments"></i>#}
+                <h3>评论列表，共 <b>{{ msg_boards.comment_set.count }}</b> 条评论</h3>
+            </div>
+            <div id="postcomments">
+                {% include 'blog/comment_submit.html' with form=form user=user post=msg_boards %}
+
+                <ol class="commentlist">
+                    {% recursetree comment_list %}
+                        <li class="comment">
+                            {% include 'blog/comment.html' with comment=node level=node.level %}
+                            {% if not node.is_leaf_node %}
+                                <label></label>
+                                <ul class="children">
+                                    {{ children }}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endrecursetree %}
+                </ol>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+{% block afterbody %}
+    <script type="text/javascript">
+        {# 增加single class，主要用于去除列表背景, 优化背景#}
+
+        function addsingle() {
+            document.getElementById('body').classList.add('single')
+        }
+
+        window.onload = addsingle();
+
+        function onSubmitComment() {
+            console.log("设置disabled，避免重复提交数据");
+            if ($('#editor').val().trim() == '') {
+                //TOO DOO 后续优化提示框
+                alert("请输入评论内容再提交！");
+                return false;
+            }
+            $('#submit').attr('disabled', true);
+        }
+    </script>
+
+    <!-- simditor  http://simditor.tower.im/docs/doc-usage.html -->
+    <link rel="stylesheet" type="text/css" href="/static/simditor/styles/simditor.css"/>
+    <script type="text/javascript" src="/static/simditor/scripts/module.js"></script>
+    <script type="text/javascript" src="/static/simditor/scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="/static/simditor/scripts/uploader.js"></script>
+    <script type="text/javascript" src="/static/simditor/scripts/simditor.js"></script>
+    {% if user.is_authenticated %}
+        <script type="text/javascript">
+            var editor = new Simditor({
+                textarea: $('#editor'),
+                toolbar: [
+                    'bold',
+                    'italic',
+                    'underline',
+                    'strikethrough',
+                    'color',
+                    'ol',
+                    'ul',
+                    'blockquote',
+                    'code',
+                    'table',
+                    'hr',
+                ]
+                //optional options
+            });
+        </script>
+    {% endif %}
+
+    {#    获取访问者IP信息,更多方法请参考 https://www.cnblogs.com/lyWebstrat/p/6824022.html#}
+    <script type=text/javascript src=http://pv.sohu.com/cityjson></script>
+    <script type=text/javascript>
+        console.log(returnCitySN)
+        $("input[name='ip']").val(returnCitySN.cip)
+        $("input[name='city']").val(returnCitySN.cname)
+        console.log(returnCitySN.cip)
+        console.log(returnCitySN.cname)
+    </script>
+{% endblock %}

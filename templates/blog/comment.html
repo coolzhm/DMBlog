@@ -1,0 +1,35 @@
+<div class="c-avatar">
+    {% if comment.avatar_url %}
+        <img width="36" height="36"
+             data-src="{{ comment.avatar_url }}"
+             class="avatar photo" alt="{{ comment.name }}"
+             src="{{ comment.avatar_url }}"
+             style="display: block;">
+    {% else %}
+        <img width="36" height="36"
+             data-src="/media/{{ basicdata.logo }}"
+             class="avatar photo" alt="{{ comment.name }}"
+             src="/media/{{ basicdata.logo }}"
+             style="display: block;">
+    {% endif %}
+</div>
+<div class="c-main">
+    <div id="commentua">
+        <span class="c-author">
+            <a target="_blank" class="url" rel="external nofollow">{{ comment.name }}</a>
+            {% if comment.previous %}
+                <i class="fa fa-share"></i><a target="_blank" class="url" rel="external nofollow">{{ comment.previous }}</a>
+            {% endif %}
+        </span>
+    </div>
+    <div id="comcontent">
+        {{ comment.text|safe }}
+    </div>
+    <div class="c-meta">
+        {{ comment.created_time }}
+        {% if  comment.city %}[{{ comment.city }}]{% endif %}
+        {#            {% if  comment.ip %}[{{ comment.ip }}]{% endif %}#}
+        <a id="{{ comment.id }}" href="javascript:void(0);" onclick="moveForm(this.id,'{{ comment.name }}',{{ level }})"
+           class="comment-reply-link">回复</a>
+    </div>
+</div>

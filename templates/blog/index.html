@@ -1,0 +1,234 @@
+{% extends 'mybase.html' %}
+{% load blog_tags %}
+{% load thumbnail %}
+{% block head %}
+    <meta name="keywords" content="个人博客,dmcool,个人博客模板,个人网站模版,django,python,网站建设">
+    <meta name="description" content="DM的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设">
+{% endblock head %}
+
+{% block main %}
+    <section class="container">
+        <div class="content-wrap">
+            <div class="content">
+                <div id="slide_style1" class="slide_style1 carousel slide" data-ride="carousel"
+                     style="touch-action: pan-y; user-select: none; -webkit-user-drag: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                    <ol class="carousel-indicators">
+                        <li data-target="#slide_style1" data-slide-to="0" class="active"></li>
+                        <li data-target="#slide_style1" data-slide-to="1" class=""></li>
+                        <li data-target="#slide_style1" data-slide-to="2" class=""></li>
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active"><a target="_blank" href=""><img
+                                alt=""
+                                src="/static/logo/1.png"></a><span
+                                class="carousel-caption"></span><span class="carousel-bg"></span></div>
+                        <div class="item"><a target="_blank" href=""><img alt=""
+                                                                          src="/static/logo/2.png"></a><span
+                                class="carousel-caption"></span><span class="carousel-bg"></span></div>
+                        <div class="item"><a target="_blank" href=""><img
+                                alt=""
+                                src="/static/logo/3.png"></a><span
+                                class="carousel-caption"></span><span class="carousel-bg"></span></div>
+                    </div>
+                    <a class="left carousel-control" href="#slide_style1" role="button" data-slide="prev"><i
+                            class="fa fa-angle-left"></i></a><a class="right carousel-control" href="#slide_style1"
+                                                                role="button" data-slide="next"><i
+                        class="fa fa-angle-right"></i></a></div>
+                {% for post in post_list %}
+                    <article class="excerpt excerpt-one excerpt-5 article543">
+                        <header><a class="cat label label-important"
+                                   href="{% url 'blog:category' post.category.pk %}" data-original-title=""
+                                   title="">{{ post.category.name }}<i
+                                class="label-arrow"></i></a>
+                            <h2><a href="{{ post.get_absolute_url }}"
+                                   title="{{ post.title }}">{{ post.title }}</a>
+                            </h2>
+                        </header>
+                        <div class="text-muted time"><span class="post-time nmpost"><i
+                                class="fa fa-clock-o"></i> {{ post.author }} 发布于 {{ post.created_time|date:"Y-m-d" }}</span>
+                        </div>
+                        <div class="focus"><a href="{{ post.get_absolute_url }}" class="thumbnail">
+                    <span class="item"><span class="thumb-span"><img
+                            data-src="{{ MEDIA_URL }}{{ post.pic.avatar.url }}"
+                            class="thumb"
+                            src="{{ MEDIA_URL }}{{ post.pic.avatar.url }}"
+                            style="display: inline;"></span></span>
+                        </a>
+                        </div>
+
+                        <span class="note">{{ post.excerpt }}</span>
+                        <div class="text-muted views">
+                            <span class="post-views"><i class="fa fa-eye"></i> 阅读({{ post.views }})</span>
+                            <a href="javascript:;" class="post-like sf-praise-sdk " sfa="click" data-postid="543"
+                               data-value="1"><i class="fa  fa-thumbs-o-up"></i>赞一个 (<span class="sf-praise-sdk"
+                                                                                           sfa="num"
+                                                                                           data-value="1"
+                                                                                           data-postid="543">0</span>)</a>
+                            <span class="post-comments"><i class="fa fa-comments"></i> 评论({{ post.comment_set.count }})</span>
+                            <a class="post-linkto" href="{{ post.get_absolute_url }}"
+                               rel="external nofollow">阅读全文</a>
+                        </div>
+                    </article>
+                {% endfor %}
+                {% if is_paginated %}
+
+                    <div class="pagination">
+                        <ul>
+                            <li>
+                                <a href="?page={{ before }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            {% if first %}
+                                <li><a href="?page=1">1</a></li>
+                            {% endif %}
+                            {% if left %}
+                                {% if left_has_more %}
+                                    <li><span>...</span></li>
+                                {% endif %}
+                                {% for i in left %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+                            {% endif %}
+                            <li class="current active"><a href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                            </li>
+                            {% if right %}
+                                {% for i in right %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+                                {% if right_has_more %}
+                                    <li><span>...</span></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if last %}
+                                <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                            {% endif %}
+                            <li>
+                                <a href="?page={{ next }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% endif %}
+            </div>
+        </div>
+        <aside class="sidebar">
+            <div class="widget widget-tops">
+                <ul class="widget-nav">
+                    {#                    <li class="">网站公告</li>#}
+                    <li class="">
+                        最多点击
+                    </li>
+                    {#                    <li class="">特别推荐</li>#}
+                    <li class="active">热评文章</li>
+                </ul>
+                <ul class="widget-navcontent">
+                    <li class="item item-01">
+                        {% get_hot_view_article as hot_article_list %}
+                        <ul>
+                            {% for hot_article  in hot_article_list %}
+                                <li class="sidelist1">
+                                    <time>{{ hot_article.created_time|date:'Y-m-d' }}</time>
+                                    <a target="_blank"
+                                       href="{{ hot_article.get_absolute_url }}">{{ hot_article.title }}</a>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+                    </li>
+                    <li class="item item-01 active">
+                        {% get_hot_commend_article as hot_commend_list %}
+                        <ul>
+                            {% for hot_commend in  hot_commend_list %}
+                                <li class="sidelist1">
+                                    <time>{{ hot_commend.created_time|date:'Y-m-d' }}</time>
+                                    <a target="_blank"
+                                       href="{{ hot_commend.get_absolute_url }}">{{ hot_commend.title }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="widget widget_divTags" id="divTags">
+                {% get_tags as tag_list %}
+                <ul class="widget_divTags_inner">
+
+                    {% for tag in tag_list %}
+                        <li><a href="{% url 'blog:tag' tag.pk %}" data-original-title="" title="">{{ tag.name }}<span
+                                class="tag-count"> [{{ tag.num_posts }}]</span></a></li>
+                    {% empty %}
+                        暂无标签！
+                    {% endfor %}
+
+                </ul>
+            </div>
+            <div class="widget widget_hotpost" id="hotpost">
+                <h3 class="title">推荐文章</h3>
+                {% get_recommend as recommend_list %}
+                <div class="widget_inner widget_hotpost_inner">
+                    {% for recommend in recommend_list %}
+                        <li><a href="{{ recommend.get_absolute_url }}"><span class="thumbnail"><img
+                                data-src="{{ MEDIA_URL }}{{ recommend.pic.avatar.url }}"
+                                class="thumb"
+                                src="{{ MEDIA_URL }}{{ recommend.pic.avatar.url }}"
+                                style="display: block;"></span><span class="text">{{ recommend.title }}</span><span
+                                class="text-muted post-views"><br>阅读 [{{ recommend.views }}]</span></a></li>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="widget widget_divComments" id="divComments">
+                {% get_commands as commands_list %}
+                <ul class="widget_divComments_inner">
+                    {% for command in commands_list %}
+                        <li>
+                            {% if command.post.type == 'LYB' %}
+                                <a href="{% url 'blog:msgboard' %}" title="查看<<{{ command.post.title }}>>的评论">
+                            {% elif command.post.type == 'SM' %}
+                                <a href="{% url 'blog:explain' %}" title="查看<<{{ command.post.title }}>>的评论">
+                            {% else %}
+                                <a href="{{ command.post.get_absolute_url }}" title="查看<<{{ command.post.title }}>>的评论">
+                            {% endif %}
+                            {% if command.avatar_url %}
+                                <img width="36" height="36"
+                                     data-src="{{ command.avatar_url }}"
+                                     class="avatar photo" alt="{{ command.name }}"
+                                     src="{{ command.avatar_url }}"
+                                     style="display: block;">
+                            {% else %}
+                                <img width="36" height="36"
+                                     data-src="/media/{{ basicdata.logo }}"
+                                     class="avatar photo" alt="{{ command.name }}"
+                                     src="/media/{{ basicdata.logo }}"
+                                     style="display: block;">
+                            {% endif %}
+
+                            <strong>{{ command.name }}</strong>
+                            <span class="text-muted">评论说：<br>{{ command.text|safe }}</span>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    </section>
+    <div class="branding branding-black">
+        <div class="container">
+            <a class="btn btn-lg" href="{% url 'blog:explain' %}" style="text-decoration:none;"><i
+                    class="fa fa-drupal"></i> 关于本站</a>
+            {#        <a class="btn btn-lg" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=lPj7-PX61PL77Pn1-fi69-v5"#}
+            {#           style="text-decoration:none;"><i class="fa fa-envelope"></i> 给我写信</a>#}
+
+            <a class="btn btn-lg" href="{% url 'rss' %}" target="_blank" style="text-decoration:none;"><i
+                    class="fa fa-rss-square"></i> 订阅本站</a>
+            <a class="btn btn-lg" href="{% url 'blog:msgboard' %}" style="text-decoration:none;"><i
+                    class="fa fa-weixin"></i> 站内留言</a>
+
+            {#        <a class="btn btn-lg" href="http://www.tiezis.com/zb_users/plugin/ZCenter/user/signup.php"#}
+            {#           style="text-decoration:none;"><i class="fa fa-qq"></i> 注册会员</a>#}
+        </div>
+    </div>
+{% endblock main %}

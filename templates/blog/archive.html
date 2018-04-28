@@ -1,0 +1,45 @@
+{% extends 'mybase.html' %}
+{% block head %}
+    <meta name="keywords" content="个人博客,dmcool,个人博客模板,个人网站模版,django,python,网站建设">
+    <meta name="description" content="DM的个人网站，web知识与探索，django与python技术资料，网页模版下载，个人网站建设">
+{% endblock head %}
+{% block main %}
+    <div class="container container-page">
+        <div class="pageside">
+            <div class="pagemenus">
+                <ul class="pagemenu">
+                    <li><a href="{% url 'blog:explain' %}"><i class="fa fa-send"></i> 简介</a>
+                    </li>
+                    <li class="active"><a href="{% url 'blog:archive' %}"><i
+                            class="fa fa-chain-broken"></i> 归档</a></li>
+                    <li><a href="{% url 'blog:tags' %}"><i
+                            class="fa fa-tags"></i> 云标签</a></li>
+                    <li><a href="{% url 'blog:msgboard' %}"><i
+                            class="fa fa-comments"></i> 留言板</a></li>
+                </ul>
+            </div>
+            <div class="pagemenus">
+            </div>
+        </div>
+        <div class="content">
+            <header class="article-header">
+                <h1 class="article-title"><a href="{% url 'blog:tags' %}">文章归档</a></h1>
+            </header>
+            <article class="archives">
+                {% for archive in archive_list %}
+                    <div class="item">
+                        <h3>{{ archive.created_time|date:"Y年m月d日" }}</h3>
+                        <ul class="archives-list">
+
+                            <a href="{{ archive.get_absolute_url }}">
+                                {{ archive.title }}
+                                <span class="muteds">{{ archive.views }}</span>
+                            </a>
+
+                        </ul>
+                    </div>
+                {% endfor %}
+            </article>
+        </div>
+    </div>
+{% endblock %}

@@ -1,10 +1,11 @@
 # DMBlog
-DM博客源代码，欢迎下载(DM博客地址:http://www.dmcool.top/ )<br>
+DM博客源代码，欢迎下载(DM博客地址:http://www.dmcool.top/ ) <br>
 
 <br>
-# 安装过程
+
+# 一、安装过程
 ## 1、安装依赖
-项目文件夹下有一个requirements.txt文档，用一下指令进行安装<br>
+项目文件夹下有一个requirements.txt文档，用一下指令进行安装 <br>
 pip install -r requirements.txt<br>
 
 ## 2、运行一下指令

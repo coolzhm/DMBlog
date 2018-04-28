@@ -1,0 +1,138 @@
+body {
+    padding-top: 50px;
+    background-color: #ffffff;
+    font-family: "Microsoft YaHei UI";
+    /*background-image: url(http://static.ghostchina.com/image/6/d1/fcb3879e14429d75833a461572e64.jpg)*/
+}
+
+/*.container {*/
+/*padding-top: 10px;*/
+/*}*/
+.article-list {
+    margin-top: 10px;
+}
+
+.article-item {
+    border-bottom: 1px solid #f0f0f0;
+    border-left: 1px solid #f0f0f0;
+    background-color: #ffffff;
+    margin: 10px;
+}
+
+.blog-category {
+    margin-right: 10px;
+    line-height: 10px;
+    display: block;
+    vertical-align: middle;
+    padding: 1px 5px;
+    border: 1px solid #9e9e9e;
+    color: #8c8c8c;
+    font-size: 10px;
+    font-weight: 400;
+    float: left;
+}
+
+.content-intro {
+    margin-top: 5px;
+    width: 100%;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+/*detail.html*/
+.detail-content {
+    margin-top: 10px;
+}
+
+.detail-header h3 {
+    margin: 5px auto;
+    padding-bottom: 5px;
+    color: #555;
+    /*text-shadow: 0 1px 0 #FFF;*/
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.detail-body {
+    border-top: 1px solid #c3c3c3;
+    margin-top: 14px;
+    padding-top: 20px;
+}
+
+.meta {
+    float: left;
+    display: block;
+    margin: 0;
+    /*margin-bottom: 8px;*/
+    padding: 0;
+    list-style: none;
+}
+
+.meta li {
+    float: left;
+    margin-right: 12px;
+    line-height: 14px;
+    padding: 0 5px;
+}
+
+.meta li span {
+    margin-right: 5px;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+}
+
+.blog-tags {
+    width: 100%;
+    margin: 10px;
+    color: #888;
+    font-size: 14px;
+    line-height: 28px;
+    padding-bottom: 3px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.blog-tag {
+    border: 1px solid #dedede;
+    padding: 2px 6px;
+    font-size: 14px;
+    margin: 5px 8px 5px 0;
+    border-radius: 5px;
+}
+
+.blog-tag a {
+    text-decoration: none;
+    color: #555;
+    border-radius: 30px;
+}
+
+.blog-category a:hover, .title-style a:hover, .list-group-item a:hover, .blog-tag a:hover {
+    color: #009cff;
+}
+
+.title-style a, .blog-category a, .list-group-item a {
+    text-decoration: none;
+    color: #555;
+}
+
+/*搜索结果高亮*/
+span.highlighted {
+    color: red;
+}
+
+/*重写margin*/
+.thumbnail {
+    margin-bottom: 0px;
+    margin: 7px;
+
+}
+
+.item-view {
+    color: #555;
+    font-family: Arial;
+}
+

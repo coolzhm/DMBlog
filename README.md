@@ -4,6 +4,9 @@ DM博客源代码，欢迎下载(DM博客地址:http://www.dmcool.top/ ) <br>
 <br>
 
 # 一、安装过程
+## 1、项目环境
+Python 3.5 <br>
+Django 2.0 <br>
 ## 1、安装依赖
 项目文件夹下有一个requirements.txt文档，用一下指令进行安装 <br>
 pip install -r requirements.txt<br>
@@ -14,7 +17,7 @@ python3 manage.py migrate<br>
 python3 manage.py runserver<br>
 <br>
 ## 3、安装过程出现的问题
-安装之前确保每个app（blog、comments、users）中的migrations文件夹中只有__init__.py文件，其他多余的要删除，不然运行python3 manage.py makemigrations和python3 manage.py migrate会报错
+安装之前确保每个app（blog、comments、users）中的migrations文件夹中只有__init__.py文件，其他多余的要删除，不然运行python3 manage.py makemigrations和python3 manage.py migrate会报错 <br>
 ------------------------------------------------------<br>
 <br>
 # 二、功能说明
